@@ -2142,10 +2142,9 @@
           return;
         }
 
-        // On envoie les deux variantes de nom de champ (contactId et
-        // primaryContactId) parce que certaines versions/configurations de
-        // l'API GHL v2 n'acceptent que l'une ou l'autre. GHL ignore le champ
-        // inconnu, donc envoyer les deux est sans risque.
+        // GHL v2 valide le schéma de façon stricte : envoyer un champ
+        // inconnu renvoie un 422 « property X should not exist ».
+        // Le nom correct pour l'API v2 est `contactId`.
         const oppBody = {
           pipelineId: pipeline.id,
           locationId: GHL_LOCATION_ID,
@@ -2153,7 +2152,6 @@
           pipelineStageId: stage.id,
           status: "open",
           contactId: contactId,
-          primaryContactId: contactId,
           source: GHL_SOURCE,
         };
         console.log("[GHL] POST /opportunities/ body:", oppBody);
