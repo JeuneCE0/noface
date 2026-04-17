@@ -2097,38 +2097,79 @@
         upsertJson.id ||
         (upsertJson.new && upsertJson.new.id);
 
-      if (!contactId) return;
+      if (!contactId) {
+        console.warn("[GHL] contact upsert OK but no contactId in response:", upsertJson);
+        return;
+      }
+      console.log("[GHL] contact upserted:", contactId);
 
+      // --- Étape opportunité : verbeuse, les erreurs ne sont plus avalées
+      //     silencieusement. L'utilisateur est quand même redirigé ensuite.
       try {
         const pipesResp = await ghlFetch(
           "/opportunities/pipelines?locationId=" + encodeURIComponent(GHL_LOCATION_ID)
         );
-        if (!pipesResp.ok) return;
-        const pipesJson = await pipesResp.json();
+        const pipesText = await pipesResp.text();
+        if (!pipesResp.ok) {
+          console.error("[GHL] GET /opportunities/pipelines failed:", pipesResp.status, pipesText);
+          return;
+        }
+        let pipesJson;
+        try { pipesJson = JSON.parse(pipesText); }
+        catch (e) {
+          console.error("[GHL] pipelines response is not JSON:", pipesText);
+          return;
+        }
         const pipelines = pipesJson.pipelines || [];
+        console.log("[GHL] pipelines disponibles :", pipelines.map(p => p.name));
+        if (pipelines.length === 0) {
+          console.error("[GHL] aucune pipeline dans la Location. Vérifie les scopes du PIT (opportunities + opportunities/pipeline).");
+          return;
+        }
+
+        const norm = (s) => (s || "").toLowerCase().trim();
         const pipeline =
-          pipelines.find(p => (p.name || "").toLowerCase() === GHL_PIPELINE.toLowerCase()) ||
+          pipelines.find(p => norm(p.name) === norm(GHL_PIPELINE)) ||
           pipelines[0];
         const stages = (pipeline && pipeline.stages) || [];
+        console.log("[GHL] stages dans", pipeline.name, ":", stages.map(s => s.name));
         const stage =
-          stages.find(s => (s.name || "").toLowerCase() === GHL_STAGE.toLowerCase()) ||
+          stages.find(s => norm(s.name) === norm(GHL_STAGE)) ||
           stages[0];
-        if (!pipeline || !stage) return;
+        if (!pipeline || !stage) {
+          console.error("[GHL] pipeline ou stage introuvable. Cherché :",
+            GHL_PIPELINE, "/", GHL_STAGE, "— trouvé :", pipeline && pipeline.name, "/", stage && stage.name);
+          return;
+        }
 
-        await ghlFetch("/opportunities/", {
+        // On envoie les deux variantes de nom de champ (contactId et
+        // primaryContactId) parce que certaines versions/configurations de
+        // l'API GHL v2 n'acceptent que l'une ou l'autre. GHL ignore le champ
+        // inconnu, donc envoyer les deux est sans risque.
+        const oppBody = {
+          pipelineId: pipeline.id,
+          locationId: GHL_LOCATION_ID,
+          name: firstname || email,
+          pipelineStageId: stage.id,
+          status: "open",
+          contactId: contactId,
+          primaryContactId: contactId,
+          source: GHL_SOURCE,
+        };
+        console.log("[GHL] POST /opportunities/ body:", oppBody);
+
+        const oppResp = await ghlFetch("/opportunities/", {
           method: "POST",
-          body: JSON.stringify({
-            pipelineId: pipeline.id,
-            locationId: GHL_LOCATION_ID,
-            name: firstname || email,
-            pipelineStageId: stage.id,
-            status: "open",
-            contactId: contactId,
-            source: GHL_SOURCE,
-          }),
+          body: JSON.stringify(oppBody),
         });
+        const oppText = await oppResp.text();
+        if (!oppResp.ok) {
+          console.error("[GHL] POST /opportunities/ failed:", oppResp.status, oppText);
+          return;
+        }
+        console.log("[GHL] opportunité créée :", oppText);
       } catch (err) {
-        console.warn("GHL opportunity step skipped:", err);
+        console.error("[GHL] opportunity step error:", err);
       }
     }
 
