@@ -14,7 +14,7 @@
   <meta name="robots" content="index, follow, max-image-preview:large" />
   <meta name="theme-color" content="#0a0908" />
   <meta name="format-detection" content="telephone=no" />
-  <link rel="canonical" href="https://nofacelab.com/" />
+  <link rel="canonical" href="https://no-face.fr/" />
   <link rel="icon" type="image/png" href="pfpnfl.png" />
   <link rel="apple-touch-icon" href="pfpnfl.png" />
 
@@ -23,18 +23,20 @@
   <meta property="og:site_name" content="No Face Lab" />
   <meta property="og:title" content="No Face Lab · Crée du contenu IA premium et monétise ton univers" />
   <meta property="og:description" content="Prompts, idées et méthodes gratuites pour créer du contenu IA premium, des UGC IA et des vidéos IA. Construis ton univers visuel et transforme ton contenu en audience et revenus." />
-  <meta property="og:image" content="staticlanding.png" />
+  <meta property="og:image" content="https://no-face.fr/staticlanding.png" />
+  <meta property="og:image:secure_url" content="https://no-face.fr/staticlanding.png" />
+  <meta property="og:image:type" content="image/png" />
   <meta property="og:image:width" content="1920" />
   <meta property="og:image:height" content="1080" />
   <meta property="og:image:alt" content="No Face Lab · contenu IA premium" />
   <meta property="og:locale" content="fr_FR" />
-  <meta property="og:url" content="https://nofacelab.com/" />
+  <meta property="og:url" content="https://no-face.fr/" />
 
   <!-- Twitter / X Cards -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="No Face Lab · Contenu IA premium et monétisation" />
   <meta name="twitter:description" content="Prompts, idées et méthodes gratuites pour créer du contenu IA premium et monétiser ton univers." />
-  <meta name="twitter:image" content="staticlanding.png" />
+  <meta name="twitter:image" content="https://no-face.fr/staticlanding.png" />
   <meta name="twitter:image:alt" content="No Face Lab · contenu IA premium" />
 
   <!-- JSON-LD structured data — WebSite + Organization -->
@@ -44,27 +46,29 @@
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://nofacelab.com/#website",
-        "url": "https://nofacelab.com/",
+        "@id": "https://no-face.fr/#website",
+        "url": "https://no-face.fr/",
         "name": "No Face Lab",
         "description": "Ressources gratuites pour créer du contenu IA premium, des UGC IA, des avatars IA et des vidéos IA, construire un univers visuel et monétiser son contenu.",
         "inLanguage": "fr-FR",
-        "publisher": { "@id": "https://nofacelab.com/#organization" }
+        "publisher": { "@id": "https://no-face.fr/#organization" }
       },
       {
         "@type": "Organization",
-        "@id": "https://nofacelab.com/#organization",
+        "@id": "https://no-face.fr/#organization",
         "name": "No Face Lab",
-        "url": "https://nofacelab.com/",
-        "logo": "https://nofacelab.com/pfpnfl.png",
+        "url": "https://no-face.fr/",
+        "logo": "https://no-face.fr/pfpnfl.png",
         "description": "Studio et communauté dédiés à la création de contenu IA premium, à la construction d'univers visuels et à la monétisation du contenu sur les réseaux sociaux.",
         "sameAs": ["https://www.skool.com/no-face-lab-5673/about"]
       },
       {
         "@type": "WebPage",
-        "url": "https://nofacelab.com/",
+        "@id": "https://no-face.fr/#webpage",
+        "url": "https://no-face.fr/",
         "name": "No Face Lab · Créer du contenu IA premium",
-        "isPartOf": { "@id": "https://nofacelab.com/#website" },
+        "description": "Accède gratuitement aux prompts, idées, workflows et méthodes pour créer du contenu IA premium, des UGC IA, des avatars IA et des vidéos IA, et pour monétiser ton univers sur Instagram et TikTok.",
+        "isPartOf": { "@id": "https://no-face.fr/#website" },
         "about": [
           { "@type": "Thing", "name": "Création de contenu IA" },
           { "@type": "Thing", "name": "UGC IA" },
@@ -72,17 +76,51 @@
           { "@type": "Thing", "name": "Vidéos IA" },
           { "@type": "Thing", "name": "Monétisation de contenu" }
         ],
-        "primaryImageOfPage": "https://nofacelab.com/staticlanding.png",
-        "inLanguage": "fr-FR"
+        "primaryImageOfPage": "https://no-face.fr/staticlanding.png",
+        "inLanguage": "fr-FR",
+        "breadcrumb": { "@id": "https://no-face.fr/#breadcrumb" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "@id": "https://no-face.fr/#breadcrumb",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Accueil",
+            "item": "https://no-face.fr/"
+          }
+        ]
+      },
+      {
+        "@type": "ItemList",
+        "@id": "https://no-face.fr/#resources",
+        "name": "Ressources gratuites No Face Lab",
+        "description": "Prompts, idées, workflows et méthodes offerts pour créer du contenu IA premium et monétiser son univers.",
+        "inLanguage": "fr-FR",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Prompts IA" },
+          { "@type": "ListItem", "position": 2, "name": "Idées de contenu" },
+          { "@type": "ListItem", "position": 3, "name": "Workflows IA" },
+          { "@type": "ListItem", "position": 4, "name": "Méthodes d'univers visuel" },
+          { "@type": "ListItem", "position": 5, "name": "Leviers de monétisation" }
+        ]
       }
     ]
   }
   </script>
 
+  <!-- Performance hints — anticipate the form POST to GHL and the Skool
+       redirect that happens right after submission. -->
+  <link rel="preconnect" href="https://services.leadconnectorhq.com" crossorigin />
+  <link rel="preconnect" href="https://www.skool.com" />
+  <link rel="dns-prefetch" href="https://services.leadconnectorhq.com" />
+  <link rel="dns-prefetch" href="https://www.skool.com" />
+
   <!-- Apple-style typography — uses the system SF Pro Display / SF Pro Text
        on macOS / iOS, falls back to Helvetica Neue / clean modern sans elsewhere.
        No external font requests = faster, more native, more Apple. -->
-  <link rel="preload" as="image" href="staticlanding.png" />
+  <link rel="preload" as="image" href="staticlanding.png" fetchpriority="high" />
 
   <style>
     /* ============================================================
@@ -1270,7 +1308,7 @@
        ============================================================ -->
   <div class="bg-stage" id="bgStage">
     <canvas id="bg-canvas"></canvas>
-    <img id="bg-static" src="staticlanding.png" alt="" decoding="async" />
+    <img id="bg-static" src="staticlanding.png" alt="" decoding="async" fetchpriority="high" />
   </div>
   <div class="bg-overlay" id="bgOverlay"></div>
   <div class="grain"></div>
@@ -1286,8 +1324,8 @@
 
   <!-- Nav -->
   <header class="nav" id="nav">
-    <a href="#" class="nav__logo" aria-label="No Face Lab, accueil">
-      <img src="nofacelabpng.png" alt="No Face Lab" />
+    <a href="/" class="nav__logo" aria-label="No Face Lab, accueil">
+      <img src="nofacelabpng.png" alt="Logo No Face Lab" width="160" height="30" />
     </a>
     <a href="#final" class="nav__cta">Accès gratuit →</a>
   </header>
@@ -1353,7 +1391,7 @@
             </div>
             <p class="form-success__title">Bienvenue <span class="successName"></span> 👋</p>
             <p class="form-success__text">Tu rejoins l'espace dans quelques secondes.</p>
-            <p class="form-success__redirect">Redirection dans <strong class="redirectCount">3</strong>s · <a href="#" class="redirectLink" rel="noopener">y aller maintenant</a></p>
+            <p class="form-success__redirect">Redirection dans <strong class="redirectCount">3</strong>s · <a href="#" class="redirectLink" rel="noopener noreferrer">y aller maintenant</a></p>
           </div>
         </div>
       </div>
@@ -1384,17 +1422,17 @@
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
         </button>
         <div class="carousel__track" id="picsTrack">
-          <div class="liquid-card"><img src="pics/cinematicstyle1.png" alt="" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Cinematic</span><span class="liquid-card__name">Lumière chaude</span></div></div>
-          <div class="liquid-card"><img src="pics/3Dcharacter.png" alt="" loading="lazy" style="object-position: center 30%;"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">3D Character</span><span class="liquid-card__name">Personnage signature</span></div></div>
-          <div class="liquid-card"><img src="pics/animepic.png" alt="" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Anime</span><span class="liquid-card__name">Style stylisé</span></div></div>
-          <div class="liquid-card"><img src="pics/samuraipic.png" alt="" loading="lazy" style="object-position: 65% center;"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Concept</span><span class="liquid-card__name">Samouraï mystique</span></div></div>
-          <div class="liquid-card"><img src="pics/cinematicstyle.png" alt="" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Cinematic</span><span class="liquid-card__name">Atmosphère filmique</span></div></div>
-          <div class="liquid-card"><img src="pics/conceptpic.png" alt="" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Concept Art</span><span class="liquid-card__name">Direction artistique</span></div></div>
-          <div class="liquid-card"><img src="pics/artstyle.png" alt="" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Art Style</span><span class="liquid-card__name">Signature visuelle</span></div></div>
-          <div class="liquid-card"><img src="pics/cinematicstyle2.png" alt="" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Cinematic</span><span class="liquid-card__name">Plan large</span></div></div>
-          <div class="liquid-card"><img src="pics/landscape.png" alt="" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Landscape</span><span class="liquid-card__name">Décor immersif</span></div></div>
-          <div class="liquid-card"><img src="pics/actionpic.png" alt="" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Action</span><span class="liquid-card__name">Scène dynamique</span></div></div>
-          <div class="liquid-card"><img src="pics/zebigfootpic.png" alt="" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Concept</span><span class="liquid-card__name">Univers absurde</span></div></div>
+          <div class="liquid-card"><img src="pics/cinematicstyle1.png" alt="Visuel IA cinématique en lumière chaude, style No Face Lab" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Cinematic</span><span class="liquid-card__name">Lumière chaude</span></div></div>
+          <div class="liquid-card"><img src="pics/3Dcharacter.png" alt="Personnage 3D IA, univers visuel signature No Face Lab" loading="lazy" style="object-position: center 30%;"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">3D Character</span><span class="liquid-card__name">Personnage signature</span></div></div>
+          <div class="liquid-card"><img src="pics/animepic.png" alt="Illustration IA style anime, contenu stylisé No Face Lab" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Anime</span><span class="liquid-card__name">Style stylisé</span></div></div>
+          <div class="liquid-card"><img src="pics/samuraipic.png" alt="Concept IA d'un samouraï mystique, direction artistique No Face Lab" loading="lazy" style="object-position: 65% center;"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Concept</span><span class="liquid-card__name">Samouraï mystique</span></div></div>
+          <div class="liquid-card"><img src="pics/cinematicstyle.png" alt="Scène IA cinématique à l'atmosphère filmique, style No Face Lab" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Cinematic</span><span class="liquid-card__name">Atmosphère filmique</span></div></div>
+          <div class="liquid-card"><img src="pics/conceptpic.png" alt="Concept art IA, direction artistique premium No Face Lab" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Concept Art</span><span class="liquid-card__name">Direction artistique</span></div></div>
+          <div class="liquid-card"><img src="pics/artstyle.png" alt="Signature visuelle IA, identité de style No Face Lab" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Art Style</span><span class="liquid-card__name">Signature visuelle</span></div></div>
+          <div class="liquid-card"><img src="pics/cinematicstyle2.png" alt="Plan large IA cinématique, visuel premium No Face Lab" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Cinematic</span><span class="liquid-card__name">Plan large</span></div></div>
+          <div class="liquid-card"><img src="pics/landscape.png" alt="Décor IA immersif, paysage cinématique No Face Lab" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Landscape</span><span class="liquid-card__name">Décor immersif</span></div></div>
+          <div class="liquid-card"><img src="pics/actionpic.png" alt="Scène d'action IA dynamique, contenu premium No Face Lab" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Action</span><span class="liquid-card__name">Scène dynamique</span></div></div>
+          <div class="liquid-card"><img src="pics/zebigfootpic.png" alt="Concept IA d'univers absurde et décalé, style No Face Lab" loading="lazy"><div class="liquid-card__shine"></div><div class="liquid-card__overlay"></div><div class="liquid-card__caption"><span class="liquid-card__tag">Concept</span><span class="liquid-card__name">Univers absurde</span></div></div>
         </div>
         <div class="carousel__progress-wrap">
           <div class="carousel__progress"><div class="carousel__progress-fill" id="picsProgress"></div></div>
@@ -1538,8 +1576,8 @@
           </div>
           <div class="screens reveal" data-parallax="-0.04">
             <div class="screens__stack">
-              <img src="screenshots/screenshot1.png" alt="" loading="lazy" />
-              <img src="screenshots/screenshot2.png" alt="" loading="lazy" />
+              <img src="screenshots/screenshot1.png" alt="Capture de résultats réseaux sociaux obtenus grâce au contenu IA No Face Lab" loading="lazy" />
+              <img src="screenshots/screenshot2.png" alt="Capture de statistiques de monétisation issues de contenu IA No Face Lab" loading="lazy" />
             </div>
             <div class="screens__caption">Stratégie · Hooks · Distribution</div>
           </div>
@@ -1553,7 +1591,7 @@
     <section class="section final-section" id="final">
       <div class="container">
         <div class="final-wrap reveal">
-          <img src="pfpnfl.png" alt="No Face Lab" class="final-mark" />
+          <img src="pfpnfl.png" alt="Logo No Face Lab" class="final-mark" loading="lazy" width="96" height="96" />
           <span class="eyebrow" style="justify-content: center;">Gratuit · Accès immédiat</span>
           <h2 class="final-title" style="margin-top: 14px;">Accède à mes ressources gratuites <span class="italic">maintenant.</span></h2>
           <p class="final-sub">Tu reçois immédiatement des prompts, des idées, des workflows et des méthodes pour créer du contenu IA de qualité, développer ton univers, gagner en visibilité et mieux monétiser ce que tu publies.</p>
@@ -1598,7 +1636,7 @@
                 </div>
                 <p class="form-success__title">Bienvenue <span class="successName"></span> 👋</p>
                 <p class="form-success__text">Tu rejoins l'espace dans quelques secondes.</p>
-                <p class="form-success__redirect">Redirection dans <strong class="redirectCount">3</strong>s · <a href="#" class="redirectLink" rel="noopener">y aller maintenant</a></p>
+                <p class="form-success__redirect">Redirection dans <strong class="redirectCount">3</strong>s · <a href="#" class="redirectLink" rel="noopener noreferrer">y aller maintenant</a></p>
               </div>
             </div>
           </div>
