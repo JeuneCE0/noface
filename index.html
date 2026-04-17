@@ -1589,9 +1589,22 @@
     // ============================================================
     // CONFIG
     // ============================================================
-    const WEBHOOK_URL = "";
     const SKOOL_REDIRECT_URL = "https://www.skool.com/no-face-lab-5673/about";
     const REDIRECT_DELAY_SECONDS = 3;
+
+    // --- GoHighLevel (GHL) ---
+    // NOTE SÉCURITÉ : site statique → la clé est exposée côté navigateur.
+    // Scoper le Private Integration Token au strict minimum (contacts +
+    // opportunités de cette Location). À terme, déporter ces appels derrière
+    // un Workflow Webhook GHL ou un proxy serveur (Cloudflare Worker, etc.).
+    const GHL_API_KEY     = "pit-d797cca2-f771-4f0d-9386-c5168efc3339";
+    const GHL_LOCATION_ID = "pjoKanItRcIukVXrcnML";
+    const GHL_PIPELINE    = "Pipeline";
+    const GHL_STAGE       = "Leads";
+    const GHL_TAGS        = ["Prospect", "Skool"];
+    const GHL_SOURCE      = "Site";
+    const GHL_API_BASE    = "https://services.leadconnectorhq.com";
+    const GHL_API_VERSION = "2021-07-28";
 
     const FRAME_COUNT = 100;
     const FRAME_DIR_DESKTOP = 'frames/desktop';
@@ -1943,17 +1956,85 @@
     // ============================================================
     const isEmailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
 
+    /**
+     * GoHighLevel — upsert contact (tags + source) puis opportunité dans
+     * le pipeline/stage demandés. L'opportunité est best-effort : un échec
+     * à cette étape ne bloque pas l'utilisateur, du moment que le contact
+     * est créé.
+     *
+     * Le paramètre `source` côté formulaire (ex. "landing_nofacelab_v3_hero")
+     * est conservé comme tag additionnel pour distinguer les formulaires
+     * dans GHL, tout en gardant la source principale imposée par le brief.
+     */
+    async function ghlFetch(path, init = {}) {
+      const headers = Object.assign(
+        {
+          "Authorization": "Bearer " + GHL_API_KEY,
+          "Version": GHL_API_VERSION,
+          "Accept": "application/json",
+        },
+        init.body ? { "Content-Type": "application/json" } : {},
+        init.headers || {}
+      );
+      return fetch(GHL_API_BASE + path, Object.assign({}, init, { headers }));
+    }
+
     async function sendToWebhook({ firstname, email, source }) {
-      if (!WEBHOOK_URL) {
-        await new Promise(r => setTimeout(r, 500));
-        return;
-      }
-      const response = await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstname, email, source, timestamp: new Date().toISOString() }),
+      const tags = source ? GHL_TAGS.concat([source]) : GHL_TAGS.slice();
+
+      const upsertResp = await ghlFetch("/contacts/upsert", {
+        method: "POST",
+        body: JSON.stringify({
+          firstName: firstname,
+          email: email,
+          locationId: GHL_LOCATION_ID,
+          tags: tags,
+          source: GHL_SOURCE,
+        }),
       });
-      if (!response.ok) throw new Error('Webhook failed');
+      if (!upsertResp.ok) {
+        const text = await upsertResp.text().catch(() => "");
+        throw new Error("GHL contact upsert failed: " + upsertResp.status + " " + text);
+      }
+      const upsertJson = await upsertResp.json().catch(() => ({}));
+      const contactId =
+        (upsertJson.contact && upsertJson.contact.id) ||
+        upsertJson.id ||
+        (upsertJson.new && upsertJson.new.id);
+
+      if (!contactId) return;
+
+      try {
+        const pipesResp = await ghlFetch(
+          "/opportunities/pipelines?locationId=" + encodeURIComponent(GHL_LOCATION_ID)
+        );
+        if (!pipesResp.ok) return;
+        const pipesJson = await pipesResp.json();
+        const pipelines = pipesJson.pipelines || [];
+        const pipeline =
+          pipelines.find(p => (p.name || "").toLowerCase() === GHL_PIPELINE.toLowerCase()) ||
+          pipelines[0];
+        const stages = (pipeline && pipeline.stages) || [];
+        const stage =
+          stages.find(s => (s.name || "").toLowerCase() === GHL_STAGE.toLowerCase()) ||
+          stages[0];
+        if (!pipeline || !stage) return;
+
+        await ghlFetch("/opportunities/", {
+          method: "POST",
+          body: JSON.stringify({
+            pipelineId: pipeline.id,
+            locationId: GHL_LOCATION_ID,
+            name: firstname || email,
+            pipelineStageId: stage.id,
+            status: "open",
+            contactId: contactId,
+            source: GHL_SOURCE,
+          }),
+        });
+      } catch (err) {
+        console.warn("GHL opportunity step skipped:", err);
+      }
     }
 
     function setupForm({ formId, fnId, emailId, rowFNId, rowEmailId, cardId, source }) {
