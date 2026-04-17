@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/0.9">
+  <url>
+    <loc>https://nofacelab.com/</loc>
+    <lastmod>2026-04-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://nofacelab.com/staticlanding.png</image:loc>
+      <image:title>No Face Lab - contenu IA premium</image:title>
+      <image:caption>Ressources gratuites pour creer du contenu IA premium et monetiser son univers.</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://nofacelab.com/pfpnfl.png</image:loc>
+      <image:title>Logo No Face Lab</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://nofacelab.com/nofacelabpng.png</image:loc>
+      <image:title>Logotype No Face Lab</image:title>
+    </image:image>
+  </url>
+</urlset>

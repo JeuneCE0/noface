@@ -1,0 +1,20 @@
+# robots.txt — No Face Lab
+# https://nofacelab.com/
+
+User-agent: *
+Allow: /
+
+# Laisser les crawlers IA indexer le contenu public.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://nofacelab.com/sitemap.xml
