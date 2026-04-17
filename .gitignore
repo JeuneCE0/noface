@@ -1,0 +1,10 @@
+# Agent worktrees (workspaces isolés pour sous-agents Claude Code)
+.claude/
+
+# OS / éditeurs
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/

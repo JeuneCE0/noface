@@ -1311,6 +1311,10 @@
                 <input type="email" id="emailHero" name="email" placeholder="ton@email.com" autocomplete="email" required />
                 <span class="form-row__error">Indique une adresse email valide.</span>
               </div>
+              <div class="form-row" id="rowPhoneHero">
+                <input type="tel" id="phoneHero" name="phone" placeholder="Ton numéro de téléphone" autocomplete="tel" inputmode="tel" required />
+                <span class="form-row__error">Indique un numéro de téléphone valide.</span>
+              </div>
               <button type="submit" class="btn-primary">
                 <span class="btn-label">Recevoir mes ressources</span>
                 <span class="arrow">→</span>
@@ -1551,6 +1555,10 @@
                   <div class="form-row" id="rowEmailFinal">
                     <input type="email" id="emailFinal" name="email" placeholder="ton@email.com" autocomplete="email" required />
                     <span class="form-row__error">Indique une adresse email valide.</span>
+                  </div>
+                  <div class="form-row" id="rowPhoneFinal">
+                    <input type="tel" id="phoneFinal" name="phone" placeholder="Ton numéro de téléphone" autocomplete="tel" inputmode="tel" required />
+                    <span class="form-row__error">Indique un numéro de téléphone valide.</span>
                   </div>
                   <button type="submit" class="btn-primary">
                     <span class="btn-label">Recevoir mes ressources gratuites</span>
@@ -1956,6 +1964,31 @@
     // ============================================================
     const isEmailValid = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
 
+    // Téléphone : accepte chiffres + espaces, tirets, points, parenthèses, et
+    // un "+" initial optionnel. On exige 8 à 15 chiffres après nettoyage
+    // (couvre tous les formats internationaux raisonnables, E.164 compris).
+    const isPhoneValid = (raw) => {
+      if (typeof raw !== 'string') return false;
+      const trimmed = raw.trim();
+      if (!/^\+?[\d\s().\-]+$/.test(trimmed)) return false;
+      const digits = trimmed.replace(/\D/g, '');
+      return digits.length >= 8 && digits.length <= 15;
+    };
+
+    // Normalise vers un format proche de E.164 quand c'est possible.
+    // Un numéro français commençant par "0" devient "+33…".
+    const normalizePhone = (raw) => {
+      const trimmed = (raw || '').trim();
+      if (trimmed.startsWith('+')) {
+        return '+' + trimmed.slice(1).replace(/\D/g, '');
+      }
+      const digits = trimmed.replace(/\D/g, '');
+      if (digits.length === 10 && digits.startsWith('0')) {
+        return '+33' + digits.slice(1);
+      }
+      return digits;
+    };
+
     /**
      * GoHighLevel — upsert contact (tags + source) puis opportunité dans
      * le pipeline/stage demandés. L'opportunité est best-effort : un échec
@@ -1979,18 +2012,21 @@
       return fetch(GHL_API_BASE + path, Object.assign({}, init, { headers }));
     }
 
-    async function sendToWebhook({ firstname, email, source }) {
+    async function sendToWebhook({ firstname, email, phone, source }) {
       const tags = source ? GHL_TAGS.concat([source]) : GHL_TAGS.slice();
+
+      const payload = {
+        firstName: firstname,
+        email: email,
+        locationId: GHL_LOCATION_ID,
+        tags: tags,
+        source: GHL_SOURCE,
+      };
+      if (phone) payload.phone = phone;
 
       const upsertResp = await ghlFetch("/contacts/upsert", {
         method: "POST",
-        body: JSON.stringify({
-          firstName: firstname,
-          email: email,
-          locationId: GHL_LOCATION_ID,
-          tags: tags,
-          source: GHL_SOURCE,
-        }),
+        body: JSON.stringify(payload),
       });
       if (!upsertResp.ok) {
         const text = await upsertResp.text().catch(() => "");
@@ -2037,12 +2073,14 @@
       }
     }
 
-    function setupForm({ formId, fnId, emailId, rowFNId, rowEmailId, cardId, source }) {
+    function setupForm({ formId, fnId, emailId, phoneId, rowFNId, rowEmailId, rowPhoneId, cardId, source }) {
       const form = document.getElementById(formId);
       const fnInput = document.getElementById(fnId);
       const emailInput = document.getElementById(emailId);
+      const phoneInput = document.getElementById(phoneId);
       const rowFN = document.getElementById(rowFNId);
       const rowEmail = document.getElementById(rowEmailId);
+      const rowPhone = document.getElementById(rowPhoneId);
       const card = document.getElementById(cardId);
       const submitBtn = form.querySelector('.btn-primary');
       const successNameSpan = card.querySelector('.successName');
@@ -2056,21 +2094,29 @@
       emailInput.addEventListener('input', () => {
         if (isEmailValid(emailInput.value.trim())) rowEmail.classList.remove('error');
       });
+      phoneInput.addEventListener('input', () => {
+        if (isPhoneValid(phoneInput.value)) rowPhone.classList.remove('error');
+      });
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const firstname = fnInput.value.trim();
         const email = emailInput.value.trim();
+        const phoneRaw = phoneInput.value.trim();
         const fnOk = firstname.length >= 2;
         const emOk = isEmailValid(email);
+        const phOk = isPhoneValid(phoneRaw);
         rowFN.classList.toggle('error', !fnOk);
         rowEmail.classList.toggle('error', !emOk);
-        if (!fnOk || !emOk) return;
+        rowPhone.classList.toggle('error', !phOk);
+        if (!fnOk || !emOk || !phOk) return;
+
+        const phone = normalizePhone(phoneRaw);
 
         submitBtn.disabled = true;
         submitBtn.querySelector('.btn-label').textContent = 'Envoi…';
         try {
-          await sendToWebhook({ firstname, email, source });
+          await sendToWebhook({ firstname, email, phone, source });
           successNameSpan.textContent = firstname;
           card.classList.add('success');
           let s = REDIRECT_DELAY_SECONDS;
@@ -2093,13 +2139,13 @@
     }
 
     setupForm({
-      formId: 'formHero', fnId: 'fnHero', emailId: 'emailHero',
-      rowFNId: 'rowFNHero', rowEmailId: 'rowEmailHero',
+      formId: 'formHero', fnId: 'fnHero', emailId: 'emailHero', phoneId: 'phoneHero',
+      rowFNId: 'rowFNHero', rowEmailId: 'rowEmailHero', rowPhoneId: 'rowPhoneHero',
       cardId: 'heroOptin', source: 'landing_nofacelab_v3_hero'
     });
     setupForm({
-      formId: 'formFinal', fnId: 'fnFinal', emailId: 'emailFinal',
-      rowFNId: 'rowFNFinal', rowEmailId: 'rowEmailFinal',
+      formId: 'formFinal', fnId: 'fnFinal', emailId: 'emailFinal', phoneId: 'phoneFinal',
+      rowFNId: 'rowFNFinal', rowEmailId: 'rowEmailFinal', rowPhoneId: 'rowPhoneFinal',
       cardId: 'finalOptin', source: 'landing_nofacelab_v3_final'
     });
   </script>
