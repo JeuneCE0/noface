@@ -1,5 +1,5 @@
 # robots.txt — No Face Lab
-# https://nofacelab.com/
+# https://no-face.fr/
 
 User-agent: *
 Allow: /
@@ -17,4 +17,4 @@ Allow: /
 User-agent: PerplexityBot
 Allow: /
 
-Sitemap: https://nofacelab.com/sitemap.xml
+Sitemap: https://no-face.fr/sitemap.xml
