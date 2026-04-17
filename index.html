@@ -12,12 +12,12 @@
   <meta name="theme-color" content="#0a0a0f" />
 
   <!-- Favicon + OG -->
-  <link rel="icon" type="image/png" href="logos/pfpnfl.png" />
-  <link rel="apple-touch-icon" href="logos/pfpnfl.png" />
+  <link rel="icon" type="image/svg+xml" href="logos/pfpnfl.svg" />
+  <link rel="apple-touch-icon" href="logos/pfpnfl.svg" />
   <meta property="og:title" content="No Face Lab — Ressources gratuites pour créateurs IA" />
   <meta property="og:description" content="Crée du contenu IA de qualité et apprends à le monétiser." />
   <meta property="og:type" content="website" />
-  <meta property="og:image" content="logos/pfpnfl.png" />
+  <meta property="og:image" content="logos/nofacelab.svg" />
 
   <style>
     /* ============================================================
@@ -188,18 +188,21 @@
     .logo {
       display: flex;
       align-items: center;
+      color: var(--text);
     }
-    .logo img {
+    .logo svg {
       height: 34px;
       width: auto;
       display: block;
-      filter: brightness(var(--logo-contrast));
     }
-    /* Sur thème clair, le logo gold reste lumineux mais on enlève tout halo */
-    [data-theme="light"] .logo img { filter: none; }
-
     @media (max-width: 540px) {
-      .logo img { height: 28px; }
+      .logo svg { height: 28px; }
+    }
+
+    /* Marque SVG (hero + final CTA) — hérite la couleur du thème via currentColor */
+    .brand-mark {
+      color: var(--text);
+      display: block;
     }
 
     .nav__actions {
@@ -730,7 +733,21 @@
   <header class="nav" id="nav">
     <div class="container nav__inner">
       <a href="#" class="logo" aria-label="No Face Lab - Accueil">
-        <img src="logos/nofacelabpng.png" alt="No Face Lab" />
+        <svg viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+          <defs>
+            <mask id="nfl-nav-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="240">
+              <rect width="200" height="240" fill="white"/>
+              <path d="M 100 24 L 108 66 L 150 74 L 108 82 L 100 140 L 92 82 L 50 74 L 92 66 Z" fill="black"/>
+              <rect x="116" y="98" width="32" height="8" rx="1.5" fill="black"/>
+            </mask>
+          </defs>
+          <path d="M 100 8 C 62 8, 36 32, 36 72 C 36 92, 40 106, 46 116 C 46 122, 46 128, 44 134 C 38 152, 24 178, 10 208 C 6 218, 10 228, 22 228 L 176 228 C 186 228, 190 220, 186 210 C 176 184, 164 158, 158 138 C 156 130, 156 122, 158 116 L 150 108 L 158 102 L 158 96 C 162 88, 164 80, 164 72 C 164 32, 138 8, 100 8 Z"
+            fill="currentColor" mask="url(#nfl-nav-mask)"/>
+          <g font-family="Inter, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-weight="900" font-size="128" letter-spacing="-3">
+            <text x="230" y="158" fill="currentColor">NO FACE</text>
+            <text x="710" y="158" fill="#ff7a1a">LAB</text>
+          </g>
+        </svg>
       </a>
 
       <div class="nav__actions">
@@ -756,7 +773,17 @@
          HERO
          ============================================================ -->
     <section class="hero container" id="top">
-      <img src="logos/pfpnfl.png" alt="No Face Lab" class="hero__mark" />
+      <svg class="hero__mark brand-mark" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="No Face Lab">
+        <defs>
+          <mask id="nfl-hero-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="240">
+            <rect width="200" height="240" fill="white"/>
+            <path d="M 100 24 L 108 66 L 150 74 L 108 82 L 100 140 L 92 82 L 50 74 L 92 66 Z" fill="black"/>
+            <rect x="116" y="98" width="32" height="8" rx="1.5" fill="black"/>
+          </mask>
+        </defs>
+        <path d="M 100 8 C 62 8, 36 32, 36 72 C 36 92, 40 106, 46 116 C 46 122, 46 128, 44 134 C 38 152, 24 178, 10 208 C 6 218, 10 228, 22 228 L 176 228 C 186 228, 190 220, 186 210 C 176 184, 164 158, 158 138 C 156 130, 156 122, 158 116 L 150 108 L 158 102 L 158 96 C 162 88, 164 80, 164 72 C 164 32, 138 8, 100 8 Z"
+          fill="currentColor" mask="url(#nfl-hero-mask)"/>
+      </svg>
 
       <span class="chip"><span class="dot"></span>Ressources gratuites disponibles</span>
 
@@ -770,7 +797,7 @@
 
       <!-- ============================================================
            FORMULAIRE OPT-IN
-           → WEBHOOK_URL : connecte ton CRM / email platform
+           → GHL_* : intégration GoHighLevel (contact + opportunité)
            → SKOOL_REDIRECT_URL : redirection après succès
            ============================================================ -->
       <div class="optin" id="optin">
@@ -959,7 +986,17 @@
          ============================================================ -->
     <section class="final-cta container">
       <div class="final-cta__box reveal">
-        <img src="logos/pfpnfl.png" alt="No Face Lab" class="final-cta__mark" />
+        <svg class="final-cta__mark brand-mark" viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="No Face Lab">
+          <defs>
+            <mask id="nfl-cta-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="200" height="240">
+              <rect width="200" height="240" fill="white"/>
+              <path d="M 100 24 L 108 66 L 150 74 L 108 82 L 100 140 L 92 82 L 50 74 L 92 66 Z" fill="black"/>
+              <rect x="116" y="98" width="32" height="8" rx="1.5" fill="black"/>
+            </mask>
+          </defs>
+          <path d="M 100 8 C 62 8, 36 32, 36 72 C 36 92, 40 106, 46 116 C 46 122, 46 128, 44 134 C 38 152, 24 178, 10 208 C 6 218, 10 228, 22 228 L 176 228 C 186 228, 190 220, 186 210 C 176 184, 164 158, 158 138 C 156 130, 156 122, 158 116 L 150 108 L 158 102 L 158 96 C 162 88, 164 80, 164 72 C 164 32, 138 8, 100 8 Z"
+            fill="currentColor" mask="url(#nfl-cta-mask)"/>
+        </svg>
         <h2 class="final-cta__title">Récupère tes <span style="background: linear-gradient(135deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">ressources gratuites</span></h2>
         <p class="final-cta__text">Ajoute ton email pour accéder immédiatement à mes ressources et rejoindre l'espace.</p>
         <a href="#optin" class="btn-primary">
@@ -987,9 +1024,22 @@
     // ============================================================
     // CONFIGURATION
     // ============================================================
-    const WEBHOOK_URL = "";
     const SKOOL_REDIRECT_URL = "https://www.skool.com/no-face-lab-5673/about";
     const REDIRECT_DELAY_SECONDS = 3;
+
+    // --- GoHighLevel (GHL) ---
+    // NOTE DE SÉCURITÉ : ce site étant statique, la clé API est exposée côté
+    // navigateur. Idéalement, passer par un proxy (Cloudflare Worker, Netlify
+    // Function, etc.) ou par un webhook de Workflow GHL. Limiter les droits
+    // de ce Private Integration Token au strict minimum (contacts + opp).
+    const GHL_API_KEY     = "pit-d797cca2-f771-4f0d-9386-c5168efc3339";
+    const GHL_LOCATION_ID = "pjoKanItRcIukVXrcnML";
+    const GHL_PIPELINE    = "Pipeline";
+    const GHL_STAGE       = "Leads";
+    const GHL_TAGS        = ["Prospect", "Skool"];
+    const GHL_SOURCE      = "Site";
+    const GHL_API_BASE    = "https://services.leadconnectorhq.com";
+    const GHL_API_VERSION = "2021-07-28";
 
     // ============================================================
     // ANNÉE FOOTER
@@ -1072,25 +1122,86 @@
     });
 
     /**
-     * Fonction prévue pour brancher un webhook / CRM.
-     * Laissez WEBHOOK_URL vide pour désactiver (mode simulation).
+     * Envoie le lead dans GoHighLevel :
+     *  1) crée/upsert le contact (avec tags + source)
+     *  2) résout l'ID du pipeline + stage à partir de leurs noms
+     *  3) crée une opportunité liée au contact, dans le bon stage
+     *
+     * Les erreurs d'opportunité ne bloquent PAS le parcours utilisateur :
+     * du moment que le contact est créé, on redirige vers Skool.
      */
-    async function sendToWebhook({ firstname, email }) {
-      if (!WEBHOOK_URL) {
-        await new Promise(r => setTimeout(r, 500)); // mini simulation
-        return;
-      }
-      const response = await fetch(WEBHOOK_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+    async function ghlFetch(path, init = {}) {
+      const headers = Object.assign(
+        {
+          "Authorization": "Bearer " + GHL_API_KEY,
+          "Version": GHL_API_VERSION,
+          "Accept": "application/json",
+        },
+        init.body ? { "Content-Type": "application/json" } : {},
+        init.headers || {}
+      );
+      return fetch(GHL_API_BASE + path, Object.assign({}, init, { headers }));
+    }
+
+    async function sendToGHL({ firstname, email }) {
+      // 1) upsert contact
+      const upsertResp = await ghlFetch("/contacts/upsert", {
+        method: "POST",
         body: JSON.stringify({
-          firstname,
-          email,
-          source: 'landing_nofacelab',
-          timestamp: new Date().toISOString(),
+          firstName: firstname,
+          email: email,
+          locationId: GHL_LOCATION_ID,
+          tags: GHL_TAGS,
+          source: GHL_SOURCE,
         }),
       });
-      if (!response.ok) throw new Error('Webhook failed');
+
+      if (!upsertResp.ok) {
+        const text = await upsertResp.text().catch(() => "");
+        throw new Error("GHL contact upsert failed: " + upsertResp.status + " " + text);
+      }
+      const upsertJson = await upsertResp.json().catch(() => ({}));
+      const contactId =
+        (upsertJson.contact && upsertJson.contact.id) ||
+        upsertJson.id ||
+        (upsertJson.new && upsertJson.new.id);
+
+      // 2) + 3) opportunité (best-effort, on ne bloque pas en cas d'échec)
+      if (contactId) {
+        try {
+          const pipesResp = await ghlFetch(
+            "/opportunities/pipelines?locationId=" + encodeURIComponent(GHL_LOCATION_ID)
+          );
+          if (pipesResp.ok) {
+            const pipesJson = await pipesResp.json();
+            const pipelines = pipesJson.pipelines || [];
+            const pipeline =
+              pipelines.find(p => (p.name || "").toLowerCase() === GHL_PIPELINE.toLowerCase()) ||
+              pipelines[0];
+            const stages = (pipeline && pipeline.stages) || [];
+            const stage =
+              stages.find(s => (s.name || "").toLowerCase() === GHL_STAGE.toLowerCase()) ||
+              stages[0];
+
+            if (pipeline && stage) {
+              await ghlFetch("/opportunities/", {
+                method: "POST",
+                body: JSON.stringify({
+                  pipelineId: pipeline.id,
+                  locationId: GHL_LOCATION_ID,
+                  name: firstname || email,
+                  pipelineStageId: stage.id,
+                  status: "open",
+                  contactId: contactId,
+                  source: GHL_SOURCE,
+                }),
+              });
+            }
+          }
+        } catch (err) {
+          console.warn("GHL opportunity step skipped:", err);
+        }
+      }
     }
 
     form.addEventListener('submit', async (e) => {
@@ -1110,7 +1221,7 @@
       submitBtn.querySelector('.btn-label').textContent = 'Envoi en cours...';
 
       try {
-        await sendToWebhook({ firstname, email });
+        await sendToGHL({ firstname, email });
 
         // Succès
         successName.textContent = firstname + ' 👋';
