@@ -3,21 +3,13 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/0.9">
   <url>
     <loc>https://no-face.fr/</loc>
-    <lastmod>2026-04-17</lastmod>
+    <lastmod>2026-06-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://no-face.fr/staticlanding.png</image:loc>
-      <image:title>No Face Lab - contenu IA premium</image:title>
-      <image:caption>Ressources gratuites pour creer du contenu IA premium et monetiser son univers.</image:caption>
-    </image:image>
-    <image:image>
-      <image:loc>https://no-face.fr/pfpnfl.png</image:loc>
-      <image:title>Logo No Face Lab</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://no-face.fr/nofacelabpng.png</image:loc>
-      <image:title>Logotype No Face Lab</image:title>
+      <image:loc>https://no-face.fr/Ai%20ads%20pics%20(1).webp</image:loc>
+      <image:title>No Face Lab - studio de creation par IA</image:title>
+      <image:caption>Influenceurs virtuels, publicites produit et mini-films generes par IA.</image:caption>
     </image:image>
   </url>
 </urlset>
