@@ -314,17 +314,12 @@
   .faq-a{max-height:0;overflow:hidden;transition:max-height .45s var(--ease)}
   .faq-a p{padding:0 0 26px;color:var(--muted);font-size:1rem;line-height:1.7;max-width:780px}
 
-  /* CONTACT FORM */
-  .cform{max-width:620px;margin:46px auto 0;text-align:left;display:grid;gap:16px}
-  .cform .row2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .cform label{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:8px}
-  .cform input,.cform select,.cform textarea{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:10px;color:var(--txt);font-family:inherit;font-size:.95rem;padding:14px 15px;transition:border-color .25s}
-  .cform input:focus,.cform select:focus,.cform textarea:focus{outline:none;border-color:var(--line-2)}
-  .cform textarea{min-height:120px;resize:vertical}
-  .cform .send{justify-self:start;margin-top:4px}
-  .cform .fmsg{font-size:.9rem;color:var(--muted);min-height:1.2em;text-align:center}
-  .cform .fmsg.ok{color:#7CFF9B}
-  @media(max-width:560px){.cform .row2{grid-template-columns:1fr}}
+  /* CONTACT */
+  .contact-mail{margin:46px auto 0;display:flex;justify-content:center}
+  .contact-mail a{font-weight:800;font-size:clamp(1.5rem,6vw,3rem);letter-spacing:-.02em;color:var(--txt);position:relative;padding-bottom:8px;line-height:1.1;word-break:break-word}
+  .contact-mail a::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--txt);transform:scaleX(.18);transform-origin:left;transition:transform .45s var(--ease)}
+  .contact-mail a:hover::after{transform:scaleX(1)}
+  .contact-sub{margin:18px auto 0;color:var(--muted);font-size:.85rem;letter-spacing:.02em;text-align:center}
 
   /* STATS */
   .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
@@ -735,42 +730,11 @@
   <div class="wrap">
     <div class="lab rv"><span class="label" data-en="Contact · 04">Contact · 04</span></div>
     <h2 class="contact-big rv" data-en="Let's work<br>together.">Travaillons<br>ensemble.</h2>
-    <p class="rv" data-en="Tell me about your project." style="color:var(--muted);font-size:1.05rem;max-width:520px;margin:0 auto">Décrivez votre projet.</p>
-    <form class="cform rv" id="cform" novalidate>
-      <div class="row2">
-        <div><label data-en="Name">Nom</label><input name="name" autocomplete="name" required></div>
-        <div><label data-en="Email">Email</label><input type="email" name="email" autocomplete="email" required></div>
-      </div>
-      <div class="row2">
-        <div><label data-en="Project type">Type de projet</label>
-          <select name="type">
-            <option value="" data-en="Select…">Sélectionnez…</option>
-            <option data-en="AI influencer">Influenceur IA</option>
-            <option data-en="Product ad">Publicité produit</option>
-            <option data-en="Short film / video">Mini-film / vidéo</option>
-            <option data-en="Social content">Contenu réseaux</option>
-            <option data-en="Instagram collab (Ze Bigfoot)">Collab Instagram (Ze Bigfoot)</option>
-            <option data-en="Other">Autre</option>
-          </select>
-        </div>
-        <div><label data-en="Budget">Budget</label>
-          <select name="budget">
-            <option value="" data-en="Select…">Sélectionnez…</option>
-            <option data-en="< €500">&lt; 500€</option>
-            <option data-en="€500 – €2,000">500€ – 2 000€</option>
-            <option data-en="€2,000 – €5,000">2 000€ – 5 000€</option>
-            <option data-en="> €5,000">&gt; 5 000€</option>
-            <option data-en="To define">À définir</option>
-          </select>
-        </div>
-      </div>
-      <div><label data-en="Your project">Votre projet</label><textarea name="message" data-en-ph="Brand, goal, references, deadline…" placeholder="Marque, objectif, références, deadline…" required></textarea></div>
-      <button type="submit" class="btn solid magnetic send" data-cursor><span data-en="Send the brief">Envoyer le brief</span></button>
-      <div class="fmsg" id="fmsg"></div>
-    </form>
-    <div class="contact-meta rv" style="margin-top:26px">
-      <span data-en="Or write directly to">Ou écrivez directement à</span> <a href="mailto:nofacelabai@gmail.com" data-cursor style="color:var(--txt);border-bottom:1px solid var(--line-2)">nofacelabai@gmail.com</a>
+    <p class="rv" data-en="A project in mind? Write to me directly — I reply within 24 hours." style="color:var(--muted);font-size:1.05rem;max-width:520px;margin:0 auto">Un projet en tête ? Écrivez-moi directement — je réponds sous 24 h.</p>
+    <div class="contact-mail rv">
+      <a id="mailLink" href="mailto:nofacelabai@gmail.com" data-cursor>nofacelabai@gmail.com</a>
     </div>
+    <p class="contact-sub rv" data-en="Opens your email app, with the brief ready to fill in.">Ouvre votre app mail, avec le brief prêt à remplir.</p>
   </div>
 </section>
 
@@ -894,112 +858,17 @@ document.querySelectorAll('.faq-q').forEach(q=>{
   });
 });
 
-/* contact form */
+/* contact — mailto pré-rempli, langue-aware (FR/EN) */
 (function(){
-  const f=document.getElementById('cform');if(!f)return;
-  const fmsg=document.getElementById('fmsg');
-
-  // --- GoHighLevel (GHL) ---
-  // NOTE DE SÉCURITÉ : site statique → la clé API est exposée côté navigateur.
-  // C'est un Private Integration Token aux droits limités (contacts + opp).
-  // Idéal à terme : passer par un proxy (Vercel/Cloudflare) ou un webhook GHL.
-  const GHL_API_KEY     = "pit-d797cca2-f771-4f0d-9386-c5168efc3339";
-  const GHL_LOCATION_ID = "pjoKanItRcIukVXrcnML";
-  const GHL_PIPELINE    = "Pipeline";
-  const GHL_STAGE       = "Leads";
-  const GHL_TAGS        = ["Prospect", "Site web"];
-  const GHL_SOURCE      = "Site";
-  const GHL_API_BASE    = "https://services.leadconnectorhq.com";
-  const GHL_API_VERSION = "2021-07-28";
-
-  async function ghlFetch(path, init={}){
-    const headers = Object.assign(
-      { "Authorization":"Bearer "+GHL_API_KEY, "Version":GHL_API_VERSION, "Accept":"application/json" },
-      init.body ? { "Content-Type":"application/json" } : {},
-      init.headers || {}
-    );
-    return fetch(GHL_API_BASE+path, Object.assign({}, init, { headers }));
-  }
-
-  // 1) upsert contact  2) note avec le brief  3) opportunité (open) dans le pipeline.
-  // La note et l'opportunité sont best-effort : si le contact est créé, on considère l'envoi réussi.
-  async function sendToGHL(d){
-    const upsertResp = await ghlFetch("/contacts/upsert", {
-      method:"POST",
-      body: JSON.stringify({
-        firstName: d.name || "",
-        email: d.email || "",
-        locationId: GHL_LOCATION_ID,
-        tags: GHL_TAGS,
-        source: GHL_SOURCE,
-      }),
-    });
-    if(!upsertResp.ok){
-      const t = await upsertResp.text().catch(()=> "");
-      throw new Error("GHL contact upsert failed: "+upsertResp.status+" "+t);
-    }
-    const upsertJson = await upsertResp.json().catch(()=>({}));
-    const contactId = (upsertJson.contact && upsertJson.contact.id) || upsertJson.id || (upsertJson.new && upsertJson.new.id);
-    if(!contactId) return;
-
-    const lines = [];
-    if(d.type)    lines.push("Type de projet : "+d.type);
-    if(d.budget)  lines.push("Budget : "+d.budget);
-    if(d.message) lines.push("\nProjet :\n"+d.message);
-    if(lines.length){
-      try{
-        await ghlFetch("/contacts/"+contactId+"/notes", {
-          method:"POST",
-          body: JSON.stringify({ body: "Brief envoyé via no-face.fr\n\n"+lines.join("\n") }),
-        });
-      }catch(err){ console.warn("GHL note step skipped:", err); }
-    }
-
-    try{
-      const pipesResp = await ghlFetch("/opportunities/pipelines?locationId="+encodeURIComponent(GHL_LOCATION_ID));
-      if(pipesResp.ok){
-        const pipesJson = await pipesResp.json();
-        const pipelines = pipesJson.pipelines || [];
-        const pipeline = pipelines.find(p=>(p.name||"").toLowerCase().includes(GHL_PIPELINE.toLowerCase())) || pipelines[0];
-        const stages = (pipeline && pipeline.stages) || [];
-        const stage = stages.find(s=>(s.name||"").toLowerCase().includes(GHL_STAGE.toLowerCase())) || stages[0];
-        if(pipeline && stage){
-          await ghlFetch("/opportunities/", {
-            method:"POST",
-            body: JSON.stringify({
-              pipelineId: pipeline.id,
-              locationId: GHL_LOCATION_ID,
-              name: (d.name || d.email || "Nouveau lead") + (d.type ? " — "+d.type : ""),
-              pipelineStageId: stage.id,
-              status: "open",
-              contactId: contactId,
-              source: GHL_SOURCE,
-            }),
-          });
-        }
-      }
-    }catch(err){ console.warn("GHL opportunity step skipped:", err); }
-  }
-
-  f.addEventListener('submit',async e=>{
-    e.preventDefault();
-    const en=window._lang==='en';
-    if(!f.checkValidity()){fmsg.classList.remove('ok');fmsg.textContent=en?'Please fill in the required fields.':'Merci de remplir les champs obligatoires.';return;}
-    const d=Object.fromEntries(new FormData(f).entries());
-    const btn=f.querySelector('button[type=submit]');
-    fmsg.classList.remove('ok');fmsg.textContent=en?'Sending…':'Envoi…';
-    if(btn)btn.disabled=true;
-    try{
-      await sendToGHL(d);
-      fmsg.classList.add('ok');fmsg.textContent=en?"Thanks! I'll get back to you within 24h.":'Merci ! Je vous réponds sous 24h.';
-      f.reset();
-    }catch(err){
-      console.warn('GHL submit failed:', err);
-      fmsg.classList.remove('ok');fmsg.textContent=en?'Error — please email me directly at nofacelabai@gmail.com.':'Erreur — écrivez-moi directement à nofacelabai@gmail.com.';
-    }finally{
-      if(btn)btn.disabled=false;
-    }
-  });
+  const link=document.getElementById('mailLink');if(!link)return;
+  const T={
+    fr:{s:'Nouveau projet pour No Face Lab',b:'Bonjour,\n\nMon projet :\n• Type : \n• Budget : \n• Deadline : \n• Marque / objectif / références : \n\n'},
+    en:{s:'New project for No Face Lab',b:'Hi,\n\nMy project:\n• Type: \n• Budget: \n• Deadline: \n• Brand / goal / references: \n\n'}
+  };
+  const upd=()=>{const t=T[window._lang==='en'?'en':'fr'];link.href='mailto:nofacelabai@gmail.com?subject='+encodeURIComponent(t.s)+'&body='+encodeURIComponent(t.b);};
+  const prev=window.setLang;
+  if(typeof prev==='function') window.setLang=function(l){prev(l);upd();};
+  upd();
 })();
 
 /* carousels (glisser + flèches, images entières) — archive + preuves */
